@@ -53,7 +53,42 @@ If the github action works and you cannot find where you can download the result
 
    • To learn how to inject tweaks in to ipa visit __[here (Azule)](https://github.com/Al4ise/Azule)__
 
+## How to build the IPA locally (Recommended Method)
 
+If you want to build the IPA directly on your machine instead of using GitHub Actions, follow these steps:
 
+### Prerequisites
+1. Install __[Theos](https://theos.dev/docs/installation)__
+2. Install __[cyan](https://github.com/chariz/cyan)__: `pip3 install cyan`
+3. Get a decrypted YouTube Music IPA file (place it in `IPA/` folder)
+
+### Build Commands
+
+```bash
+# 1. Build the tweak
+make
+
+# 2. Build the package with sideloading support
+make package SIDELOADING=1
+
+# 3. Create the IPA using cyan (direct command)
+export PATH="$HOME/Library/Python/3.9/bin:$HOME/.local/bin:$PATH"
+cyan -i IPA/com.google.ios.youtubemusic-8.32-Decrypted.ipa \
+     -o IPA/YTMusicUltimate-v2.3.1.ipa \
+     -uwsf packages/com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm.deb \
+     -n "YouTube Music" \
+     -b com.google.ios.youtubemusic
+```
+
+### File Placeholders
+- **Source IPA**: `IPA/com.google.ios.youtubemusic-8.32-Decrypted.ipa` (replace with your decrypted IPA)
+- **Output IPA**: `IPA/YTMusicUltimate-v2.3.1.ipa` (will be created)
+- **Package**: `packages/com.ginsu.ytmusicultimate_2.3.1_iphoneos-arm.deb` (will be created)
+
+### Important Notes
+- **Keep the original Makefile** from the fork - don't modify compiler flags
+- **Only add `-Wno-vla`** if needed for VLA code compilation
+- **Use direct cyan commands** instead of complex make targets
+- **The app will work** with the original fork configuration
 
 Made with ❤ by Ginsu and Dayanch96
