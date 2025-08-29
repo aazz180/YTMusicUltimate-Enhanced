@@ -169,13 +169,13 @@ static BOOL findAndTapNextButton(UIView *view) {
             self.dislikeCheckTimer = nil;
         }
         
-        // Set up a 2-second timer to check dislike status
-        self.dislikeCheckTimer = [NSTimer scheduledTimerWithTimeInterval:2.0
+        // Set up a 1-second timer to check dislike status
+        self.dislikeCheckTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                                   target:self
                                                                 selector:@selector(checkDislikeStatusAfterDelay)
                                                                 userInfo:nil
                                                                  repeats:NO];
-        YTMULog(@"⏰ Timer started for dislike check");
+        YTMULog(@"⏰ 1-second timer started for dislike check");
     }
 }
 
