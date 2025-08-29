@@ -4,3 +4,11 @@
 .vscode/
 packages/
 /IPA
+
+# Build artifacts and compiled files
+*.ipa
+*.deb
+*.dylib
+*.bundle
+*.o
+*.a

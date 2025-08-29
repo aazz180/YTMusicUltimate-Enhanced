@@ -33,7 +33,7 @@
     if (section == 0) {
         return 7;
     } if (section == 2) {
-        return 3;
+        return 4;
     } if (section == 3) {
         return 2;
     } else {
@@ -152,6 +152,25 @@
 
             return cell;
         }
+        
+        if (indexPath.row == 3) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"autoSkipDislikedCell"];
+
+            cell.textLabel.text = LOC(@"AUTO_SKIP_DISLIKED");
+            cell.textLabel.adjustsFontSizeToFitWidth = YES;
+            cell.detailTextLabel.text = LOC(@"AUTO_SKIP_DISLIKED_DESC");
+            cell.detailTextLabel.numberOfLines = 0;
+            cell.detailTextLabel.textColor = [UIColor secondaryLabelColor];
+
+            ABCSwitch *switchControl = [[NSClassFromString(@"ABCSwitch") alloc] init];
+            switchControl.onTintColor = [UIColor colorWithRed:30.0/255.0 green:150.0/255.0 blue:245.0/255.0 alpha:1.0];
+            [switchControl addTarget:self action:@selector(toggleSBSwitch:) forControlEvents:UIControlEventValueChanged];
+            switchControl.tag = indexPath.row;
+            switchControl.on = [YTMUltimateDict[@"autoSkipDisliked"] boolValue];
+            cell.accessoryView = switchControl;
+
+            return cell;
+        }
     }
     
     if (indexPath.section == 3) {
@@ -226,7 +245,14 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *YTMUltimateDict = [NSMutableDictionary dictionaryWithDictionary:[defaults dictionaryForKey:@"YTMUltimate"]];
 
-    [YTMUltimateDict setObject:@([sender isOn]) forKey:@"sponsorBlock"];
+    if (sender.tag == 0) {
+        // SponsorBlock switch
+        [YTMUltimateDict setObject:@([sender isOn]) forKey:@"sponsorBlock"];
+    } else if (sender.tag == 3) {
+        // Auto-skip disliked switch
+        [YTMUltimateDict setObject:@([sender isOn]) forKey:@"autoSkipDisliked"];
+    }
+    
     [defaults setObject:YTMUltimateDict forKey:@"YTMUltimate"];
 }
 
